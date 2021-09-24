@@ -16,9 +16,13 @@ class Wiki(commands.Cog):
 
     @commands.command()
     async def show(self, ctx, message):
-        response = util.find_photo(message)
-        if response:
-            await ctx.send(response)
+        photos, response = util.find_photo(message)
+
+        await ctx.send(response)
+
+        if photos:
+            for photo in photos:
+                await ctx.send(photo)
 
 
 def setup(bot):
