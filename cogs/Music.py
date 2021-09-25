@@ -72,7 +72,7 @@ class Music(commands.Cog):
         if voice.is_playing():
             if source in self.queue:
                 self.queue.remove(source)
-                await ctx.send("I will obliterate " + song_title + "at once")
+                await ctx.send("I will obliterate " + song_title + " at once")
         else:
             await ctx.send("I cannot find that in the reserves")
 
