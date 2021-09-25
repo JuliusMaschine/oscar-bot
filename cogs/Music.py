@@ -20,7 +20,7 @@ class Music(commands.Cog):
     brief_cease = 'Stops the playlist'
     brief_obliterate = 'Removes a song from the playlist'
 
-    queue = []
+    queue = {}
 
     FFMPEG_OPTIONS = {'before_options': '''-reconnect 1 -reconnect_streamed 1
                   -reconnect_delay_max 5''', 'options': '-vn'}
@@ -37,9 +37,9 @@ class Music(commands.Cog):
         source = await FFmpegOpusAudio.from_probe(url, **self.FFMPEG_OPTIONS)
 
         if voice.is_playing():
-            self.queue.append(source)
+            self.queue[song_title] = source
+            print(song_title)
             message = "As you wish, the next song is: "
-
         else:
             voice.play(source,
                        after=lambda x=None: self.check_reserve(ctx))
@@ -50,7 +50,7 @@ class Music(commands.Cog):
     def check_reserve(self, ctx):
         if self.queue:
             voice = get(self.bot.voice_clients, guild=ctx.guild)
-            source = self.queue.pop(0)
+            source = self.queue[next(iter(self.queue))]
             voice.play(source)
 
     @commands.command(brief=brief_next)
@@ -67,11 +67,10 @@ class Music(commands.Cog):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
 
         url, song_title, duration = util.ydl_source(message)
-        source = await FFmpegOpusAudio.from_probe(url, **self.FFMPEG_OPTIONS)
 
         if voice.is_playing():
-            if source in self.queue:
-                self.queue.remove(source)
+            if song_title in self.queue.keys():
+                self.queue.pop(song_title)
                 await ctx.send("I will obliterate " + song_title + " at once")
         else:
             await ctx.send("I cannot find that in the reserves")
