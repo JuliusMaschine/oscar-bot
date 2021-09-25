@@ -8,14 +8,14 @@ class Wiki(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    brief_inform = '''Takes the word and looks up the news on it, remember
+                      to wrap the search item in quotation marks " " '''
     brief_fetch = '''Takes the word and looks up information associated with
                      the search item, remember to wrap the song in quotation
                      marks " " '''
     brief_show = '''Takes the word and looks up the photo associated with the
                     search item, remember to wrap the song
                     in quotation marks " " '''
-    brief_inform = '''Takes the word and looks up the news on it, remember
-                      to wrap the search item in quotation marks " " '''
 
     @commands.command(brief=brief_fetch, description=brief_fetch)
     async def fetch(self, ctx, message):

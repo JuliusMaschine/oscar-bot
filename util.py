@@ -16,7 +16,6 @@ def search_wiki(message):
         list_options = "\n".join(list_options)
 
         text = "Please be more specific.... Do you mean?:\n" + " " * 10 + "\n"
-
         message = text + list_options
 
     except exc.PageError:

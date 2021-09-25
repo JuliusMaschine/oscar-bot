@@ -10,6 +10,7 @@ class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    brief_depart = 'Oscar leaves the voice chat'
     brief_summon = 'Oscar is summoned to the voice chat'
     brief_retrieve = '''Takes the song and plays it, remember to wrap the song
                         in quotation marks " " '''
@@ -17,7 +18,6 @@ class Music(commands.Cog):
     brief_halt = 'Pauses the current song'
     brief_recommence = 'Resumes the song if it is paused'
     brief_cease = 'Stops the playlist'
-    brief_depart = 'Oscar leaves the voice chat'
 
     queue = []
 
