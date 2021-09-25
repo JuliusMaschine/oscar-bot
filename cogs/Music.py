@@ -18,6 +18,7 @@ class Music(commands.Cog):
     brief_halt = 'Pauses the current song'
     brief_recommence = 'Resumes the song if it is paused'
     brief_cease = 'Stops the playlist'
+    brief_obliterate = 'Removes a song from the playlist'
 
     queue = []
 
@@ -60,6 +61,20 @@ class Music(commands.Cog):
             voice.pause()
 
         self.check_reserve(ctx)
+
+    @commands.command(brief=brief_obliterate)
+    async def obliterate(self, ctx, message):
+        voice = get(self.bot.voice_clients, guild=ctx.guild)
+
+        url, song_title, duration = util.ydl_source(message)
+        source = await FFmpegOpusAudio.from_probe(url, **self.FFMPEG_OPTIONS)
+
+        if voice.is_playing():
+            if source in self.queue:
+                self.queue.remove(source)
+                await ctx.send("I will obliterate " + song_title + "at once")
+        else:
+            await ctx.send("I cannot find that in the reserves")
 
     @commands.command(brief=brief_recommence)
     async def recommence(self, ctx):
