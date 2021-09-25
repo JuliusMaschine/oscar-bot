@@ -1,6 +1,10 @@
-import wikipedia
 import wikipedia.exceptions as exc
+import wikipedia
 import youtube_dl
+
+from datetime import datetime
+import requests
+import json
 
 
 def search_wiki(message):
@@ -33,8 +37,8 @@ def find_photo(item):
     try:
         photo_request = wikipedia.page(item)
         photo = photo_request.images
-        photo = [img for img in photo if not img.endswith('.svg')]
-        photo = [img for img in photo if not img.endswith('.ogg')][:10]
+        ext = ('.svg', '.ogg')
+        photo = [img for img in photo if not img.endswith(ext)][:10]
         response = "Here are the photos that you have requested: \n"
 
     except exc.PageError:
@@ -48,11 +52,40 @@ def find_photo(item):
     except exc.RedirectError as e:
         response = "Can only fetch information on " + e.title
 
-    if photo:
-        return photo, response
+    return photo, response
 
-    else:
-        return photo, response
+
+def search_news(message):
+    url = "https://free-news.p.rapidapi.com/v1/search"
+    key = "f3cefb04e5msha1234c20288478fp12d560jsn591018fd4c94"
+
+    querystring = {"q": message, "lang": "en", "page": "1"}
+
+    headers = {'x-rapidapi-host': "free-news.p.rapidapi.com",
+               'x-rapidapi-key': key}
+
+    results = requests.request("GET", url, headers=headers,
+                               params=querystring)
+    response = []
+
+    try:
+        data = json.loads(results.text)['articles']
+
+        for file in data:
+            date = file['published_date']
+            date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+            artichle_age = (datetime.now() - date).days
+
+            conditions = [artichle_age < 7]
+
+        if all(conditions):
+            response.append(file)
+            print(file)
+
+    except KeyError:
+        print("No data available")
+
+    return response[:3]
 
 
 def polite_address(author):

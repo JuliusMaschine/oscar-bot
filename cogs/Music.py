@@ -10,17 +10,26 @@ class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    brief_summon = 'Oscar is summoned to the voice chat'
+    brief_retrieve = '''Takes the song and plays it, remember to wrap the song
+                        in quotation marks " " '''
+    brief_next = 'Plays the next song'
+    brief_halt = 'Pauses the current song'
+    brief_recommence = 'Resumes the song if it is paused'
+    brief_cease = 'Stops the playlist'
+    brief_depart = 'Oscar leaves the voice chat'
+
     queue = []
 
     FFMPEG_OPTIONS = {'before_options': '''-reconnect 1 -reconnect_streamed 1
                   -reconnect_delay_max 5''', 'options': '-vn'}
 
-    @commands.command()
+    @commands.command(brief=brief_summon)
     async def summon(self, ctx):
         voice = get(ctx.guild.voice_channels, name='general')
         await voice.connect()
 
-    @commands.command()
+    @commands.command(brief=brief_retrieve, description=brief_retrieve)
     async def retrieve(self, ctx, search_title):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
         url, song_title, duration = util.ydl_source(search_title)
@@ -43,7 +52,7 @@ class Music(commands.Cog):
             source = self.queue.pop(0)
             voice.play(source)
 
-    @commands.command()
+    @commands.command(brief=brief_next)
     async def next(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
 
@@ -52,7 +61,7 @@ class Music(commands.Cog):
 
         self.check_reserve(ctx)
 
-    @commands.command()
+    @commands.command(brief=brief_recommence)
     async def recommence(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
         if voice.is_paused():
@@ -60,7 +69,15 @@ class Music(commands.Cog):
         else:
             return
 
-    @commands.command()
+    @commands.command(brief=brief_halt)
+    async def halt(self, ctx):
+        voice = get(self.bot.voice_clients, guild=ctx.guild)
+        if voice.is_playing():
+            voice.pause()
+        else:
+            return
+
+    @commands.command(brief=brief_cease)
     async def cease(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
 
@@ -69,7 +86,7 @@ class Music(commands.Cog):
         else:
             return
 
-    @commands.command()
+    @commands.command(brief=brief_depart)
     async def depart(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
 
