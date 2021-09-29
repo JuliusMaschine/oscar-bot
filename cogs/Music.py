@@ -30,12 +30,18 @@ class Music(commands.Cog):
         voice = get(ctx.guild.voice_channels, name='general')
         await voice.connect()
 
+    # This is the play command
     @commands.command(brief=brief_retrieve, description=brief_retrieve)
     async def retrieve(self, ctx, search_title):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
+
+        # Takes the url, song title and the duration from the ydl and
+        # transforms it into a ffmpegopus object
         url, song_title, duration = util.ydl_source(search_title)
         source = await FFmpegOpusAudio.from_probe(url, **self.FFMPEG_OPTIONS)
 
+        # The condtions list to check if the audio is to be added to the
+        # playlist or to be played immediately
         conditions = [voice.is_playing(),
                       voice.is_paused()]
 
@@ -49,12 +55,18 @@ class Music(commands.Cog):
 
         await ctx.send(message + song_title)
 
+    # The check_reserve checks if there are songs in the playlist and plays it
+    # if there are,until it finishes
     def check_reserve(self, ctx):
         if self.queue:
             voice = get(self.bot.voice_clients, guild=ctx.guild)
-            source = self.queue[next(iter(self.queue))]
+
+            # Takes the next song in the playlist and then removes it
+            # from the plylist
+            source = self.queue.pop(next(iter(self.queue)))
             voice.play(source)
 
+    # Takes the next song in the playlist and plays it
     @commands.command(brief=brief_next)
     async def next(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
@@ -64,18 +76,27 @@ class Music(commands.Cog):
 
         self.check_reserve(ctx)
 
+    # Removes the song from the playlist
     @commands.command(brief=brief_obliterate)
     async def obliterate(self, ctx, message):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
         url, song_title, duration = util.ydl_source(message)
 
-        if voice.is_playing():
+        conditions = [voice.is_playing(),
+                      voice.is_paused()]
+
+        if any(conditions):
+
+            # Uses the song titles extracted from ydl and then
+            # check it from the playlist if it's present
+            # removes the matching song from the playlist
             if song_title in self.queue.keys():
                 self.queue.pop(song_title)
                 await ctx.send("I will obliterate " + song_title + " at once")
         else:
             await ctx.send("I cannot find " + song_title + " in the reserves")
 
+    # Resumes the playlist if it has been paused
     @commands.command(brief=brief_recommence)
     async def recommence(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
@@ -85,6 +106,7 @@ class Music(commands.Cog):
         else:
             return
 
+    # Pauses the playlist
     @commands.command(brief=brief_halt)
     async def halt(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
@@ -94,6 +116,7 @@ class Music(commands.Cog):
         else:
             return
 
+    # Stops the playlist
     @commands.command(brief=brief_cease)
     async def cease(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
@@ -103,6 +126,7 @@ class Music(commands.Cog):
         else:
             return
 
+    # Tells the bot to leave the voice chat
     @commands.command(brief=brief_depart)
     async def depart(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
