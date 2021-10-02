@@ -86,13 +86,12 @@ class Music(commands.Cog):
                       voice.is_paused()]
 
         if any(conditions):
-
+            await ctx.send("Looking......")
             # Uses the song titles extracted from ydl and then
             # check it from the playlist if it's present
             # removes the matching song from the playlist
-            if song_title in self.queue.keys():
-                self.queue.pop(song_title)
-                await ctx.send("I will obliterate " + song_title + " at once")
+            self.queue.pop(song_title)
+            await ctx.send("I will obliterate " + song_title + " at once")
         else:
             await ctx.send("I cannot find " + song_title + " in the reserves")
 
