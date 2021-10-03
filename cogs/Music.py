@@ -50,7 +50,7 @@ class Music(commands.Cog):
 
         if any(conditions):
             if song_title in self.queue.keys():
-                song_title += "*"
+                song_title += " * "
             self.queue[song_title] = source
             message = f"As you wish, {title} {name} the next song is: "
         else:
@@ -97,7 +97,12 @@ class Music(commands.Cog):
             # Uses the song titles extracted from ydl and then
             # check it from the playlist if it's present
             # removes the matching song from the playlist
-            self.queue.pop(song_title)
+            keyremove = [key for key, val in self.queue.items()
+                         if song_title in key]
+
+            if keyremove:
+                self.queue.pop(keyremove[0])
+
             await ctx.send(f"Of course {title}")
             await ctx.send(f"I will obliterate {song_title} at once")
         else:
