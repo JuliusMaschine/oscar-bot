@@ -50,16 +50,18 @@ class Music(commands.Cog):
         if any(conditions):
             if song_title in self.queue.keys():
                 message = f'''Apologies {title} {name} but the playlist already
-                 contains '''
+                 contains {song_title} '''
             else:
                 self.queue[song_title] = source
-                message = f"As you wish, {title} {name} the next song is: "
+                message = f"""As you wish, {title} {name} the next song is
+                 {song_title}"""
         else:
             voice.play(source,
                        after=lambda x=None: self.check_reserve(ctx))
-            message = f" As requested by {title} {name} I will now play: "
+            message = f""" As requested by {title} {name} I will now
+             play {song_title}"""
 
-        await ctx.send(f"{message} {song_title}")
+        await ctx.send(message)
 
     # The check_reserve checks if there are songs in the playlist and plays it
     # if there are,until it finishes
@@ -99,11 +101,16 @@ class Music(commands.Cog):
             # check it from the playlist if it's present
             # removes the matching song from the playlist
             self.queue.pop(song_title)
-            await ctx.send(f"Of course {title}")
-            await ctx.send(f"I will obliterate {song_title} at once")
+
+            message1 = f"Of course {title}"
+            message2 = f"I will obliterate {song_title} at once"
+            await ctx.send(message1)
+            await ctx.send(message2)
         else:
-            await ctx.send(f"Apologies {title} {name}")
-            await ctx.send(f"I cannot find {song_title} in the reserves")
+            message1 = f"Apologies {title} {name}"
+            message2 = f"I cannot find {song_title} in the reserves"
+            await ctx.send(message1)
+            await ctx.send(message2)
 
     # Resumes the playlist if it has been paused
     @commands.command(brief=brief_recommence)
