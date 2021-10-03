@@ -54,8 +54,7 @@ class Music(commands.Cog):
             self.queue[song_title] = source
             message = f"As you wish, {title} {name} the next song is: "
         else:
-            voice.play(source,
-                       after=lambda x=None: self.check_reserve(ctx))
+            voice.play(source, after=lambda x=None: self.check_reserve(ctx))
             message = f" As requested by {title} {name} I will now play: "
 
         await ctx.send(f"{message} {song_title}")
