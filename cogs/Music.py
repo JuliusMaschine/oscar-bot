@@ -45,7 +45,10 @@ class Music(commands.Cog):
 
         title, name = util.polite_address(ctx.message.author)
 
-        if voice.is_playing():
+        conditions = [voice.is_playing(),
+                      voice.is_paused()]
+
+        if any(conditions):
             if song_title in self.queue.keys():
                 song_title += "*"
             self.queue[song_title] = source
