@@ -45,13 +45,19 @@ class Music(commands.Cog):
         conditions = [voice.is_playing(),
                       voice.is_paused()]
 
+        title, name = util.polite_address(ctx.message.author)
+
         if any(conditions):
-            self.queue[song_title] = source
-            message = "As you wish, the next song is: "
+            if song_title in self.queue.keys():
+                message = f'''Apologies {title} {name} but the playlist already
+                 contains '''
+            else:
+                self.queue[song_title] = source
+                message = f"As you wish, {title} {name} the next song is: "
         else:
             voice.play(source,
                        after=lambda x=None: self.check_reserve(ctx))
-            message = "Will now play: "
+            message = f" As requested by {title} {name} I will now play: "
 
         await ctx.send(message + song_title)
 
@@ -85,15 +91,19 @@ class Music(commands.Cog):
         conditions = [voice.is_playing(),
                       voice.is_paused()]
 
+        title, name = util.polite_address(ctx.message.author)
+
         if any(conditions):
             await ctx.send("Looking......")
             # Uses the song titles extracted from ydl and then
             # check it from the playlist if it's present
             # removes the matching song from the playlist
             self.queue.pop(song_title)
-            await ctx.send("I will obliterate " + song_title + " at once")
+            await ctx.send(f"Of course {title}")
+            await ctx.send(f"I will obliterate {song_title} at once")
         else:
-            await ctx.send("I cannot find " + song_title + " in the reserves")
+            await ctx.send(f"Apologies {title} {name}")
+            await ctx.send(f"I cannot find {song_title} in the reserves")
 
     # Resumes the playlist if it has been paused
     @commands.command(brief=brief_recommence)
