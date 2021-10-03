@@ -59,7 +59,7 @@ class Music(commands.Cog):
                        after=lambda x=None: self.check_reserve(ctx))
             message = f" As requested by {title} {name} I will now play: "
 
-        await ctx.send(message + song_title)
+        await ctx.send(f"{message} {song_title}")
 
     # The check_reserve checks if there are songs in the playlist and plays it
     # if there are,until it finishes
