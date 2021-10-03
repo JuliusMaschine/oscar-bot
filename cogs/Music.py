@@ -83,24 +83,18 @@ class Music(commands.Cog):
     # Removes the song from the playlist
     @commands.command(brief=brief_obliterate)
     async def obliterate(self, ctx, message):
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
         url, song_title, duration = util.ydl_source(message)
-
-        conditions = [voice.is_playing(),
-                      voice.is_paused()]
-
         title, name = util.polite_address(ctx.message.author)
 
-        if any(conditions):
-            await ctx.send("Looking......")
-            # Uses the song titles extracted from ydl and then
-            # check it from the playlist if it's present
-            # removes the matching song from the playlist
-            keyremove = [key for key, val in self.queue.items()
-                         if song_title in key]
+        await ctx.send("Looking......")
+        # Uses the song titles extracted from ydl and then
+        # check it from the playlist if it's present
+        # removes the matching song from the playlist
+        keyremove = [key for key, val in self.queue.items()
+                     if song_title in key]
 
-            if keyremove:
-                self.queue.pop(keyremove[0])
+        if keyremove:
+            self.queue.pop(keyremove[0])
 
             await ctx.send(f"Of course {title}")
             await ctx.send(f"I will obliterate {song_title} at once")
