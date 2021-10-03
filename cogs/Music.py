@@ -51,7 +51,7 @@ class Music(commands.Cog):
             if song_title in self.queue.keys():
                 message = f'''
                 Apologies {title} {name} but the playlist already contains '''
-            else:
+            elif self.queue[song_title] not in self.queue.keys():
                 self.queue[song_title] = source
                 message = f"As you wish, {title} {name} the next song is: "
         else:
