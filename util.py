@@ -90,17 +90,17 @@ def search_news(message):
 def polite_address(author):
     title = ""
     name = ""
-    author = str(author)
+    author = str(author).lower()
     female = {'aliham#2055': 'Alicia', 'maccat550#5522': 'MacKenzie',
-              'meowslayer6485': 'Kathleen'}
+              'meowslayer6485': 'Kathleen', 'venterj#5369': 'Jana'}
     male = {'aquila#0990': 'Aquila', 'jules#4478': 'Jules'}
 
     if author in male:
-        title = 'sir'
+        title = 'Sir'
         name = male[author]
 
     if author in female:
-        title = 'madame'
+        title = 'Madame'
         name = female[author]
 
     return title, name
