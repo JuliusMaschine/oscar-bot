@@ -66,7 +66,7 @@ class Music(commands.Cog):
             # Takes the next song in the playlist and then removes it
             # from the plylist
             source = self.queue.pop(next(iter(self.queue)))
-            voice.play(source)
+            voice.play(source, after=lambda x=None: self.check_reserve(ctx))
 
     # Takes the next song in the playlist and plays it
     @commands.command(brief=brief_next)
