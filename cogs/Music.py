@@ -42,12 +42,10 @@ class Music(commands.Cog):
 
         # The condtions list to check if the audio is to be added to the
         # playlist or to be played immediately
-        conditions = [voice.is_playing(),
-                      voice.is_paused()]
 
         title, name = util.polite_address(ctx.message.author)
 
-        if any(conditions):
+        if voice.is_playing():
             if song_title in self.queue.keys():
                 song_title += "*"
             self.queue[song_title] = source
