@@ -50,7 +50,7 @@ class Music(commands.Cog):
 
         if any(conditions):
             if song_title in self.queue.keys():
-                song_title += " * "
+                song_title += "* "
             self.queue[song_title] = source
             message = f"As you wish, {title} {name} the next song is: "
         else:
