@@ -51,7 +51,7 @@ class Music(commands.Cog):
         if any(conditions):
             keynote = [key for key in self.queue.keys() if song_title in key]
             if keynote:
-                song_title = keynote[-1] + " *"
+                song_title = keynote[-1] + "*"
 
             self.queue[song_title] = source
             message = f"As you wish, {title} {name} the next song is: "
