@@ -117,4 +117,7 @@ def ydl_source(title):
         song_title = info['title']
         duration = info['duration']
 
+        if ydl.cache:
+            ydl.cache.remove()
+
         return url2, song_title, duration

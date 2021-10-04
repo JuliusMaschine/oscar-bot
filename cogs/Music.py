@@ -49,8 +49,11 @@ class Music(commands.Cog):
                       voice.is_paused()]
 
         if any(conditions):
-            if song_title in self.queue.keys():
-                song_title += "* "
+            keynote = [key for key, val in self.queue.items()
+                       if song_title in key]
+            if keynote:
+                song_title = keynote[-1] + "*"
+
             self.queue[song_title] = source
             message = f"As you wish, {title} {name} the next song is: "
         else:
@@ -67,7 +70,8 @@ class Music(commands.Cog):
 
             # Takes the next song in the playlist and then removes it
             # from the plylist
-            source = self.queue.pop(next(iter(self.queue)))
+            next_song = next(iter(self.queue))
+            source = self.queue.pop(next_song)
             voice.play(source, after=lambda x=None: self.check_reserve(ctx))
 
     # Takes the next song in the playlist and plays it
