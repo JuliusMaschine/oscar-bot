@@ -49,10 +49,9 @@ class Music(commands.Cog):
                       voice.is_paused()]
 
         if any(conditions):
-            keynote = [key for key, val in self.queue.items()
-                       if song_title in key]
+            keynote = [key for key in self.queue.keys() if song_title in key]
             if keynote:
-                song_title = keynote[-1] + "*"
+                song_title = keynote[-1] + " *"
 
             self.queue[song_title] = source
             message = f"As you wish, {title} {name} the next song is: "
@@ -90,15 +89,15 @@ class Music(commands.Cog):
         url, song_title, duration = util.ydl_source(message)
         title, name = util.polite_address(ctx.message.author)
 
-        await ctx.send("Looking......")
         # Uses the song titles extracted from ydl and then
         # check it from the playlist if it's present
         # removes the matching song from the playlist
-        keyremove = [key for key, val in self.queue.items()
-                     if song_title in key]
+        keyremove = [key for key in self.queue.keys() if song_title in key]
+        await ctx.send("Looking......")
 
         if keyremove:
-            self.queue.pop(keyremove[0])
+            song_title = keyremove[0]
+            self.queue.pop(song_title)
 
             await ctx.send(f"Of course {title}")
             await ctx.send(f"I will obliterate {song_title} at once")
