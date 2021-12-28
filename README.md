@@ -6,17 +6,17 @@ personal music I made to replace groovy for my friends and I to listen to in dis
 
 ### Summary
  * Music Player
-  - Plays music from youtube using the ffmpeg library to extract the audio from videos
+   - Plays music from youtube using the ffmpeg library to extract the audio from videos
  * Wikipedia api (photos and summaries)
-  - Bcan bring us random tl;dr of certain topics if we're too lazy to look up and use Google while playing since opening another application costs ram
+   - Bcan bring us random tl;dr of certain topics if we're too lazy to look up and use Google while playing since opening another application costs ram
  * NEWS API
-  - It's also connected to the newsapi so we can keep up to date with the real world since we're holed up during when I made this in covid
+   - It's also connected to the newsapi so we can keep up to date with the real world since we're holed up during when I made this in covid
 
 ### Future Additional Features
  * CO-OP games suggestion
-  - We're really lazy looking up games to play is already using too much brain power for us.
+   - We're really lazy looking up games to play is already using too much brain power for us.
  * Movie suggestions
-  - This one is also a hassle for us, we can't decide on what movie to watch.
+   - This one is also a hassle for us, we can't decide on what movie to watch.
  * Event organiser and reminder
-  - Finds the most optimal time and event for all of us to meet up in real life, we're not adulting very well
+   - Finds the most optimal time and event for all of us to meet up in real life, we're not adulting very well
  
