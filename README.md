@@ -4,7 +4,7 @@ personal music I made to replace groovy for my friends and I to listen to in dis
 ### tl;dr
   * a robot the plays music from the top result from youtube in discord that utilises the youtube-dl and discord.py and since it's private and doesn't earn any money it bypass the rules and guidelines that youtube used to take down Groovy and similar robots. It also has other features added for long-distance game night purposes (Obviously it's long distance otherwise we wouldn't use discord, we'd just whip out a speaker and use spotify on our phones to play music)
 
-### Summary
+### Current Features
  * Music Player
    - Plays music from youtube using the ffmpeg library to extract the audio from videos
  * Wikipedia api (photos and summaries)
