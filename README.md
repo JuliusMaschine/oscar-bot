@@ -22,5 +22,5 @@ personal music I made to replace groovy for my friends and I to listen to in dis
   - This one is also a hassle for us, we can't decide on what movie to watch.
  * Event organiser and reminder
   - Finds the most optimal time and event for all of us to meet up in real life, we're not adulting very well
- </details
+ </details>
  
